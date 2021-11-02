@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ngblogbytes": {
+      "hosting": {
+        "ngBlog": [
+          "ngblogbytes"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ngblogbytes"
+  }
+}
