@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { getFirestore } from '@angular/fire/firestore';
-import { collection, getDocs } from "firebase/firestore";
+import { collection, DocumentData, getDocs, QuerySnapshot, doc ,getDoc} from "firebase/firestore";
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { PostI } from 'src/app/shared/models/post.interface';
@@ -10,14 +10,20 @@ import { PostI } from 'src/app/shared/models/post.interface';
   providedIn: 'root'
 })
 export class PostService {
-
-  arreglo:any[] = [];
-  interface:PostI[] = []
   constructor() { }
   public getAllPosts(){
     const db = getFirestore();
-    const querySnapshot =  getDocs<PostI[]>(collection(db, "posts"));
-      return querySnapshot.then(data => data.map(x => x.data))
+    const querySnapshot:Promise<QuerySnapshot<DocumentData>> =  getDocs(collection(db, "posts") );
+      return querySnapshot.then(data => data.docs.map(x => {
+        const id = x.id
+        const datos = x.data();
+        return {id, ...datos}
+      }))
+  }
 
+  public async getOnePost(id: PostI){
+    const db = getFirestore();
+    const querySnapshot = await getDoc(doc(db, 'posts', `${id}`));
+    return querySnapshot.data()
   }
 }

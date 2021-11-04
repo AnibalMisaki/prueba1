@@ -19,6 +19,8 @@ import { provideFunctions,getFunctions } from '@angular/fire/functions';
 import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 import { provideRemoteConfig,getRemoteConfig } from '@angular/fire/remote-config';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ContainerAppComponent } from './components/pages/container-app/container-app.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     NewPostComponent,
     PostComponent,
     ToolbarComponent,
+    ContainerAppComponent,
     
   ],
   imports: [
@@ -44,6 +47,7 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     provideMessaging(() => getMessaging()),
     provideRemoteConfig(() => getRemoteConfig()),
     provideStorage(() => getStorage()),
+    ReactiveFormsModule
   ],
   providers: [
     ScreenTrackingService,UserTrackingService, ScreenTrackingService,UserTrackingService

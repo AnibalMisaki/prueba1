@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PostI } from 'src/app/shared/models/post.interface';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'app-post',
@@ -7,22 +9,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
+  objeto:PostI[] = []
+  datos:any[] = []
+  show:boolean = false;
+  constructor(private route:ActivatedRoute, private svc:PostService) { }
 
-  public post:{
-    id: string;
-    titlePost: string;
-    contentPost: string;
-    imagePost: string;
-  }={
-    id: '1',
-    titlePost: 'Post One',
-    contentPost: 'Hola Mundo',
-    imagePost: 'https://picsum.photos/id/237/200/300'
-  }
-  constructor(private route:ActivatedRoute) { }
-
-  ngOnInit(): void {
-    this.post.id = this.route.snapshot.params.id;
+  async ngOnInit() {
+    const idPost = this.route.snapshot.params.id;
+    this.datos.push(await this.svc.getOnePost(idPost).then(y => y));
+    this.objeto = this.datos 
+    if(this.objeto){
+      this.show = true;
+    }
   }
 
 }
