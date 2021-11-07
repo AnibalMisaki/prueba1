@@ -21,6 +21,9 @@ import { provideRemoteConfig,getRemoteConfig } from '@angular/fire/remote-config
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContainerAppComponent } from './components/pages/container-app/container-app.component';
+import { ModalComponent } from './shared/components/modal/modal.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ import { ContainerAppComponent } from './components/pages/container-app/containe
     PostComponent,
     ToolbarComponent,
     ContainerAppComponent,
+    ModalComponent,
     
   ],
   imports: [
@@ -46,9 +50,11 @@ import { ContainerAppComponent } from './components/pages/container-app/containe
     provideFunctions(() => getFunctions()),
     provideMessaging(() => getMessaging()),
     provideRemoteConfig(() => getRemoteConfig()),
-    provideStorage(() => getStorage()),
+    provideStorage(() => getStorage()),AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
     ReactiveFormsModule
   ],
+  entryComponents:[ModalComponent],
   providers: [
     ScreenTrackingService,UserTrackingService, ScreenTrackingService,UserTrackingService
   ],

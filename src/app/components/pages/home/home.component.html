@@ -1,5 +1,5 @@
 <div class="container" *ngIf="show; else loading">
-    <mat-card class="post-card" *ngFor="let post of datos">
+    <mat-card class="post-card" *ngFor="let post of data">
         <mat-card-header>
             <mat-card-title>
                 <a [routerLink]="['/post', post.id]">

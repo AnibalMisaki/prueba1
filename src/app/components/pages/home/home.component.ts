@@ -9,14 +9,14 @@ import { PostI } from 'src/app/shared/models/post.interface';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  datos:PostI[] = []
+  data:PostI[] = []
   show:boolean = false;
   constructor(private svc: PostService) { }
 
   async ngOnInit() {
     
-    this.datos = await this.svc.getAllPosts().then(y => y as PostI[])
-    if(this.datos){
+    this.data = await this.svc.getAllPosts().then(y => y as PostI[])
+    if(this.data){
       this.show = true;
     }
   }
