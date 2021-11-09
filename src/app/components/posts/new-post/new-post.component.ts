@@ -24,7 +24,6 @@ export class NewPostComponent implements OnInit {
   }
 
   addNewPost(data: PostI){
-    console.log(data);
     this.postSvc.uploadImage(data, this.image).then(()=>{
       console.log("resolved")
       this.modal.dialog.close();

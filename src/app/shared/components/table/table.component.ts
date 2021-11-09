@@ -41,13 +41,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   onEditPost(post: PostI){
-    post.titlePost = 'Post One';
-    this.postSvc.updatePostById(post).then(()=>{
-      Swal.fire('Success!', 'Your post has been edited.', 'success')
-      this.ngOnInit()
-    }).catch((error) => {
-      Swal.fire('Error', 'There was an error editing this post', 'error')
-    });
+    this.openDialog(post)
   }
 
   onDeletePost(post: PostI){
@@ -74,12 +68,18 @@ export class TableComponent implements OnInit, AfterViewInit {
     })
   }
 
-  openDialog():void{
-    const dialogRef = this.dialog.open(ModalComponent);
+  openDialog(post?:PostI):void{
+    const config = {
+      data: {
+        message: post ? 'Edit Post': 'New Post',
+        content: post
+      }
+    }; 
+    const dialogRef = this.dialog.open(ModalComponent, config);
     dialogRef.afterClosed().subscribe(async result =>{
-      this.ngOnInit();
+      this.ngOnInit(); 
       console.log('Dialog result ' + result)
-      console.log(this.postSvc.getAllPosts().then(y => y as PostI[]))
+      console.log(this.postSvc.getAllPosts().then(y => y as PostI[]))   
     })
     
     
