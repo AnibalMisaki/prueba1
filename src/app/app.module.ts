@@ -24,6 +24,7 @@ import { ContainerAppComponent } from './components/pages/container-app/containe
 import { ModalComponent } from './shared/components/modal/modal.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { EditPostComponent } from './components/posts/edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     ToolbarComponent,
     ContainerAppComponent,
     ModalComponent,
+    EditPostComponent,
     
   ],
   imports: [

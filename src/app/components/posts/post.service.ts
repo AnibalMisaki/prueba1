@@ -36,21 +36,22 @@ export class PostService {
 
   public async deletePostById(post: PostI){
     const del = await deleteDoc(doc(this.db, 'posts', `${post.id}`))
-    console.log(del);
     return del;
   }
 
   public async updatePostById(post: PostI){
-    const update = await updateDoc(doc(this.db, 'posts', `${post.id}`), {
-      "titlePost": post.titlePost,
-      "tagsPost": post.tagsPost
-    })
-    console.log(update)
-    return update;
+    console.log(post)
+    return await setDoc(doc(this.db, 'posts', `${post.id}`), post)
   }
 
 
   public uploadImage(post:PostI, image:FileI){
+    let option = '';
+    if(post.id){
+      option = 'edit';
+    }else{
+      option = 'add'
+    }
     return new Promise<void>((resolve,reject) => {
       this.filepath = `images/${image.name}`;
       const storageRef = this.storage.ref(this.filepath);
@@ -58,7 +59,7 @@ export class PostService {
       task.snapshotChanges().pipe(finalize(() => {
         storageRef.getDownloadURL().subscribe(urlImage => {
           this.downLoadURL = urlImage;
-          this.savePost(post).then(() => {
+          this.savePost(post, option).then(() => {
             console.log('Se guardaron las cosas');
             resolve();
           }).catch((error) => {
@@ -72,7 +73,7 @@ export class PostService {
 
   }
 
-  private async savePost(post:PostI){
+  async savePost(post:PostI, option:string){
     const postObj = {
       titlePost: post.titlePost,
       contentPost: post.contentPost,
@@ -80,11 +81,13 @@ export class PostService {
       fileRef: this.filepath,
       tagsPost: post.tagsPost
     }
-    if(post.id == ''){
+    if(option == 'add'){
       return await addDoc(collection(this.db, 'posts'), postObj);
-    }else{
-      return await setDoc(doc(this.db, 'posts', `${post.id}`), postObj);
+    }else if(option == 'edit'){
+      console.log(post)
+      return await setDoc(doc(this.db, 'posts', `${post.id}`), postObj)
     }
+      
     
   }
 }
