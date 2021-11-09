@@ -13,9 +13,8 @@ import {finalize} from 'rxjs/operators';
 })
 export class AuthService {
   public auth
-  public user?: User | null;
+  public user!: User | null;
   private filepath: any;
-  private downLoadURL!: Observable<string>
   constructor(private storage:AngularFireStorage) {
     this.auth = getAuth();
     onAuthStateChanged(this.auth, (user) => {
@@ -23,10 +22,21 @@ export class AuthService {
         this.user = user;
       } else {
         this.user = null;
-      }})
+      }
+    })
   }
-  async getUser(){
-    return this.user;
+  getUser(){
+    return new Promise<void>((resolve, reject) => {
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          this.user = user;
+        } else {
+          this.user = null;
+        }
+        resolve()
+      })
+
+    });
   }
   loginByEmail(user: UserI){
     const {email, password} = user;

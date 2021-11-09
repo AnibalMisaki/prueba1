@@ -23,8 +23,9 @@ export class ProfileComponent implements OnInit {
   })
 
   ngOnInit():void{
-    //this.initValuesForm(user)
-    this.initValuesForm(this.authSvc.user as UserI)
+   this.authSvc.getUser().then(() => {
+     this.initValuesForm(this.authSvc.user as UserI)
+   })
   }
 
   onSaveUser(user:UserI):void{
@@ -33,6 +34,7 @@ export class ProfileComponent implements OnInit {
         this.ngOnInit();
       })
     }else{
+      user.photoURL = this.currentImage;
       this.authSvc.saveUserProfile(user).then(() => {
         this.ngOnInit();
       }).catch((e) =>{

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { __values } from 'tslib';
-import { PostService } from '../../posts/post.service';
 import { PostI } from 'src/app/shared/models/post.interface';
+import { PostService } from '../../posts/post.service';
+
 
 @Component({
   selector: 'app-home',
@@ -20,5 +20,5 @@ export class HomeComponent implements OnInit {
       this.show = true;
     }
   }
-
+ 
 }
