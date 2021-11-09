@@ -25,6 +25,8 @@ export class AuthService {
       }
     })
   }
+  
+
   getUser(){
     return new Promise<void>((resolve, reject) => {
       onAuthStateChanged(this.auth, (user) => {
@@ -44,6 +46,7 @@ export class AuthService {
     const sesion = signInWithEmailAndPassword(this.auth, email, password!);
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
+        localStorage.setItem('User', JSON.stringify(user.uid))
         this.user = user;
       } else {
         this.user = null;
@@ -58,11 +61,8 @@ export class AuthService {
     signOut(this.auth).then(() =>{
       console.log('Sesion cerrada con exito');
       onAuthStateChanged(this.auth, (user) => {
-        if (user) {
-          this.user = user;
-        } else {
-          this.user = null;
-        }
+        this.user = user
+        localStorage.removeItem('User')
       });
     }).catch((error) =>{
       console.error(error.code + error.message);
